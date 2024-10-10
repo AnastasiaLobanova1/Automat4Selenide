@@ -145,8 +145,6 @@ public class CardDeliveryTest {
         $(".button").click();
         $("[data-test-id=agreement].input_invalid").shouldHave(exactText("Я соглашаюсь с условиями обработки и использования моих персональных данных"), Duration.ofSeconds(15));
     }
-
-
 }
 
 
