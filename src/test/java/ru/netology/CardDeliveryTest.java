@@ -83,7 +83,7 @@ public class CardDeliveryTest {
         $("[data-test-id=phone] input").setValue("+79001002002");
         $(".checkbox__box").click();
         $(".button").click();
-        $("[data-test-id=city].input_invalid .input__sub").shouldHave(exactText("Неверно введена дата"), Duration.ofSeconds(15));
+        $("[data-test-id=date] .input_invalid .input__sub").shouldHave(exactText("Неверно введена дата"), Duration.ofSeconds(15));
 
     }
 
@@ -144,6 +144,25 @@ public class CardDeliveryTest {
         $("[data-test-id=phone] input").setValue("+79001002002");
         $(".button").click();
         $("[data-test-id=agreement].input_invalid").shouldHave(exactText("Я соглашаюсь с условиями обработки и использования моих персональных данных"), Duration.ofSeconds(15));
+    }
+    @Test
+    public void shouldSendFormCalendar() {
+        String planningDate = generateDate(7, "dd.MM.yyyy");
+        $("[data-test-id=city] input").setValue("Ек");
+        $(".popup__inner").shouldBe(exist,Duration.ofSeconds(5));
+        $$(".menu-item").find(text("Екатеринбург")).click();
+        $("button span.icon_name_calendar").click();
+        $("div.calendar-input__calendar-wrapper").shouldBe(visible,Duration.ofSeconds(30));
+        if (!generateDate(7,"MM").equals(generateDate(3,"MM"))) {
+    $(".popup [data-step='1']").click();
+        }
+        $$(".calendar__day").find(text(generateDate(7,"d"))).click();
+        $("[data-test-id=name] input").setValue("Иван Иванов");
+        $("[data-test-id=phone] input").setValue("+79001002002");
+        $(".checkbox__box").click();
+        $(".button").click();
+        $("[data-test-id=notification] .notification__title").shouldHave(exactText("Успешно!"), Duration.ofSeconds(15));
+        $("[data-test-id=notification] .notification__content").shouldHave(exactText("Встреча успешно забронирована на " + planningDate), Duration.ofSeconds(15));
     }
 }
 
